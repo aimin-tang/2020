@@ -1,0 +1,2 @@
+sails new firstApp
+sails generate api user
