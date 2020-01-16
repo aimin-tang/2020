@@ -1,0 +1,30 @@
+bootstrap, in config/bootstrap.js:
+
+module.exports.bootstrap = async function(cb) {
+
+    console.log("Hello world!");
+    return cb();
+};
+
+sails generate api video creates a global var Video:
+
+module.exports.bootstrap = async function(cb) {
+
+    Video.count().exec(function(err, numVideos) {
+      if (err) {
+        return cb(err);
+      }
+
+      else if (numVideos > 0) {
+        console.log("number of videos: ", numVideos);
+        return cb();
+      }
+
+      else {
+        console.log("There are no videos");
+        return cb();
+      }
+    })
+};
+
+to remove all records in DB: rm –rf .tmp/localDiskDb.db

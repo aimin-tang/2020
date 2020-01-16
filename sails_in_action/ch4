@@ -1,0 +1,6 @@
+sails generate api video creates these files:
+
+* api/controllers/VideoController.js
+* api/models/Video.js
+
+

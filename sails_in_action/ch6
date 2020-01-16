@@ -1,0 +1,52 @@
+Model (User) DB lookup:
+
+* api/models/User.js
+* config/models.js
+* config/connections.js, localDiskDb
+
+Model attributes/DB schema (in api/models/User.js):
+
+module.exports = {
+
+  connection: 'myPostgresqlServer',
+
+  attributes: {
+    email: {
+      type: 'string',
+    },
+    username: {
+      type: 'string',
+    },
+    encryptedPassword: {
+      type: 'string'
+    },
+    gravatarURL: {
+      type: 'string'
+    },
+    deleted: {
+      type: 'boolean'
+    },
+    admin: {
+      type: 'boolean'
+    },
+    banned: {
+      type: 'boolean'
+    }
+  }
+}
+
+Model methods:
+* create()
+* find()
+* findOne()
+* update()
+* destroy()
+* count()
+
+typical code:
+
+User.create({email:"a@b.com", username:"a"})
+    .exec(function(err, foundRecords) {
+          if (err) return console.log(err);
+          return console.log(foundRecords);
+     });
