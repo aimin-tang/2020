@@ -15,3 +15,8 @@ After this, it is served by asset route:
 * assets/index.html
 
 The asset pipeline: asset files -> .tmp/public (copied by Grunt, in Gruntfile.js)
+
+relative path, such as images/logo.png is relative to the starting html page.
+absolute path is from assets/ (better - always working).
+
+sails-linker: inserts assets/styles, assets/js and assets/templates automatically.
