@@ -1,0 +1,9 @@
+Summary:
+
+This command generates api/controllers/LifeController.js:
+
+* sails generate controller life
+
+However, unlike the book, this URL generates a 404 (not sure why):
+
+localhost:1337/life/purpose

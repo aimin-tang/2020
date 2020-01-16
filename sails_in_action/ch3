@@ -1,0 +1,17 @@
+Key points:
+
+* "sails new" creates skeleton directories/files.
+* assets are under assets/, there are images/, js/, styles/, etc.
+
+* npm install sails-generate-static --save
+* sails generate static
+
+Before this, the root request is served by explicit route:
+
+* config/route.js
+* views/pages/homepage.ejs
+
+After this, it is served by asset route:
+* assets/index.html
+
+The asset pipeline: asset files -> .tmp/public (copied by Grunt, in Gruntfile.js)
