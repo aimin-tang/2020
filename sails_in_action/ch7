@@ -1,0 +1,36 @@
+an explicit route:
+
+'POST /user/signup': 'UserController.signup'
+
+This requires something like below in api/controller/UserController.js
+
+module.export = {
+  signup: function (req, res) {
+    return res.json('hello world!');
+    # equivalent to return res.json({message: 'hello world!'});
+  }
+}
+
+Sample for getting param:
+
+module.exports = {
+  signup: function(req, res) {
+    return res.json({
+      email: req.param('email')
+    });
+  }
+};
+
+Res methods:
+
+* res.json()
+* res.send(409, 'Username is already taken, please try again.')
+* res.badRequest() - 400
+* res.serverError() - 500
+* res.negotiate()
+* res.forbidden() - 403
+* res.notFound() - 404
+* res.ok() - 200
+
+
+
