@@ -1,0 +1,18 @@
+Server rendered view:
+
+config/routes.js:
+
+'GET /': {
+          view: homepage,
+          locals: {
+              me: {
+                  id: 1,
+                  email: 'sails@gmail.com',
+              }
+          }
+}
+
+views/homepage.ejs:
+<%= email %>
+
+
