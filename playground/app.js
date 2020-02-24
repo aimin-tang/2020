@@ -1,8 +1,9 @@
-import { buildGrids } from "./build_images.js";
+import { show10Nums } from "./utils/num_images.js";
+import { drawGrid } from "./utils/draw_grids.js"; 
 
 function main() {
     let here = document.getElementById("here");
-    here.innerHTML = buildGrids();
-
+    here.innerHTML = show10Nums();
+    drawGrid();
 }
-console.log(main());
+main();

@@ -8,12 +8,16 @@ let buildImages = function() {
     return images;
 }
 
-let buildGrids = function() {
+let draw1Num = function(num) {
+    return `<img src="../images/${num}.jpg" height="35" width="35">`
+}
+
+let show10Nums = function() {
     let images = buildImages();
     let innerHTML = "";
 
     for (let i = 0; i < 10; i++) {
-        innerHTML += `<img src="${images[i]}" height="35" width="35">`
+        innerHTML += draw1Num(i);
     }
     console.log(innerHTML);
     return innerHTML;
@@ -21,5 +25,5 @@ let buildGrids = function() {
 
 export {
     buildImages,
-    buildGrids
+    show10Nums
 }
