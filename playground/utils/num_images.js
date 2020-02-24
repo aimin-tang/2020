@@ -25,5 +25,6 @@ let show10Nums = function() {
 
 export {
     buildImages,
+    draw1Num,
     show10Nums
 }

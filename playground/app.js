@@ -3,7 +3,7 @@ import { drawGrid } from "./utils/draw_grids.js";
 
 function main() {
     let here = document.getElementById("here");
-    here.innerHTML = show10Nums();
-    drawGrid();
+    // here.innerHTML = show10Nums();
+    here.innerHTML = drawGrid();
 }
 main();
