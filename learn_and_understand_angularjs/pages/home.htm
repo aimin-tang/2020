@@ -2,9 +2,9 @@
     <div class="col-md-6 col-md-offset-3">
         <h4>Forecast by city</h4>
         <div class="form-group">
-            <input type="text" class="form-control" ng-model="city"/>
+            <input type="text" class="form-control mb-3" placeholder="Latitude" ng-model="lat"/>
+            <input type="text" class="form-control" placeholder="Longitude" ng-model="lon"/>
         </div>
-        <a href="#/forecast" class="btn btn-primary">Get Forecast</a>
-        <h4>{{ city }}</h4>
+        <a href="#/forecast" class="btn btn-primary" ng-click="submit()">Get Forecast</a>
     </div>
 </div>
