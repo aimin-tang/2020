@@ -1,10 +1,11 @@
 import { readRow, readCol, readBox } from '../lib/read.js';
-import { solveIn9, numCoords } from './deduce/nine_numbers.js'; 
+import { solveIn9, numCoords } from './deduce/nine_numbers.js';
 import { solveIn1d } from './deduce/one_dimension.js';
+import { solveIn2d } from './deduce/two_dimensions.js';
 
 let nextMove = function (g) {
     // check each row
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         let arr = readRow(g, i);
         let { pos, num } = solveIn9(arr);
         if (pos) {
@@ -15,7 +16,7 @@ let nextMove = function (g) {
     }
 
     // check each column
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         let arr = readCol(g, i);
         let { pos, num } = solveIn9(arr);
         if (pos) {
@@ -26,7 +27,7 @@ let nextMove = function (g) {
     }
 
     // check each box
-    for (let i=0; i<9; i++) {
+    for (let i = 0; i < 9; i++) {
         let arr = readBox(g, i);
         let { pos, num } = solveIn9(arr);
         if (pos) {
@@ -37,75 +38,40 @@ let nextMove = function (g) {
     }
 
     // check 1-d
-    for (let n=1; n<10; n++) {
-        for (let boxRow=0; boxRow<3; boxRow++) {
-            let r = solveIn1d(g, "horizontal", boxRow, n);
+    for (let n = 1; n < 10; n++) {
+        for (let j = 0; j < 3; j++) {
+            let r = solveIn1d(g, "horizontal", j, n);
             if (r.row) {
-                console.log(`Fill:  Horizonal 1d box: ${boxRow}, num: ${n}`)
+                console.log(`Fill:  Horizonal 1d box: ${j}, num: ${n}`)
                 return r;
             }
-            console.log(`Skip:  Horizonal 1d box: ${boxRow}, num: ${n}`)
+            console.log(`Skip:  Horizonal 1d box: ${j}, num: ${n}`)
         }
     }
-    for (let n=1; n<10; n++) {
-        for (let boxCol=0; boxCol<3; boxCol++) {
-            let r = solveIn1d(g, "vertical", boxCol, n);
+    for (let n = 1; n < 10; n++) {
+        for (let j = 0; j < 3; j++) {
+            let r = solveIn1d(g, "vertical", j, n);
             if (r.row) {
-                console.log(`Fill:  Vertical 1d box: ${boxCol}, num: ${n}`)
+                console.log(`Fill:  Vertical 1d box: ${j}, num: ${n}`)
                 return r;
             }
-            console.log(`Skip:  Vertical 1d box: ${boxCol}, num: ${n}`)
+            console.log(`Skip:  Vertical 1d box: ${j}, num: ${n}`)
         }
     }
-    
+
     // check 2-d
-    /*
-    for (let n=1; n<10; n++) {
-        for (let boxRow=0; boxRow<3; boxRow++) {
-            continue;
-            let nS = n.toString();
-            let startRow  = boxRow * 3;
-            let appearances = [];
-            for (let j=startRow; j<startRow+3; j++) {
-                let k =  g[j].indexOf(nS);
-                if (g[j].indexOf(nS) > -1) {
-                    appearances.push({row: j, col: k});
+    for (let n = 1; n < 10; n++) {
+        for (let j = 0; j < 3; j++) {
+            for (let k = 0; k < 3; k++) {
+                let r = solveIn2d(g, j, k, n);
+                if (r.row) {
+                    console.log(`Fill:  2d d1: ${j}, d2: ${k}, num: ${n}`)
+                    return r; 
                 }
-            }
-
-            console.log(`n: ${n}, boxRow: ${boxRow}, appearances: ` +
-                        `${print_appearances(appearances)}`)
-            if (appearances.length !== 2) { continue; }
-
-            let boxesTaken = appearances.map(a => indexToBox(a.col))
-            let boxMissing = 3 - boxesTaken.reduce((s, i) => s + i, 0);
-            let rowsTaken = appearances.map(a => a.row);
-            let rowMissing = startRow * 3 + 3 - rowsTaken.reduce((s, i) => s + i, 0);
-
-            let startCol = boxMissing * 3;
-            let appearances2 = [];
-            for (let j = startCol; j<startCol+3; j++) {
-                for (let row=0; row<9; row++) {
-                    if (g[row][j] === nS) {
-                        appearances2.push({row: row, col: j});
-                    }
-                }
-            }
-
-            console.log(`appearances2: ${print_appearances(appearances2)}`)
-            if (appearances2.length !== 2) { continue; }
-
-            let colsTaken = appearances2.map(a => a.col);
-            let colMissing = startCol * 3 + 3 - colsTaken.reduce((s, i) => s + i, 0);
-
-            return {
-                row: rowMissing,
-                col: colMissing,
-                num: n.toString()
+                console.log(`Skip:  2d d1: ${j}, d2: ${k}, num: ${n}`)
             }
         }
     }
-    */
     console.log("Sigh: Out of skills!");
 }
 

@@ -3,11 +3,12 @@ import * as basic from '../../lib/basic.js';
 // if "5" is seen in box 0 and 1, but not in box 2, then "5" is fixed to
 // a single row of box 2. If two numbers in box 2 are already filled with
 // numbers, then "5" is in the last spot.
-// type is either "horizontal" or "vertical"
+// direction is either "horizontal" or "vertical"
+// idx is either 0, 1 or 2
 // return either { row, col, num } or { row: null, col: null, num: num }
-let solveIn1d = function (g, type, boxd1Idx, num) {
-    if (type === "horizontal") {
-        let threeRows = basic.get3Rows(g, boxd1Idx);
+let solveIn1d = function (g, direction, idx, num) {
+    if (direction === "horizontal") {
+        let threeRows = basic.get3Rows(g, idx);
         let threeBoxes = basic.get3Boxes(threeRows);
         let seen = basic.numInBoxes(threeBoxes, num);
         if (seen.length !== 2) {
@@ -24,12 +25,11 @@ let solveIn1d = function (g, type, boxd1Idx, num) {
             return { row: null, col: null, num: num };
         }
 
-        let row = boxd1Idx * 3 + missingRow;
+        let row = idx * 3 + missingRow;
         let col = notSeen[0] * 3 + missingRowNums.indexOf('0');
-        console.log(`row: ${row}, col: ${col}, num: ${num}`);
         return { row: row, col: col, num: num };
-    } else if (type === "vertical") {
-        let threeCols = basic.get3Cols(g, boxd1Idx);
+    } else if (direction === "vertical") {
+        let threeCols = basic.get3Cols(g, idx);
         let threeBoxes = basic.get3Boxes(threeCols);
         let seen = basic.numInBoxes(threeBoxes, num);
         if (seen.length !== 2) {
@@ -47,11 +47,10 @@ let solveIn1d = function (g, type, boxd1Idx, num) {
         }
 
         let row = notSeen[0] * 3 + missingColNums.indexOf('0');
-        let col = boxd1Idx * 3 + missingCol;
-        console.log(`row: ${row}, col: ${col}, num: ${num}`);
+        let col = idx * 3 + missingCol;
         return { row: row, col: col, num: num };
     } else {
-        throw new Error(`Unknown type: ${type}`);
+        throw new Error(`Unknown direction: ${direction}`);
     }
 }
 
