@@ -1,10 +1,6 @@
-import { readRow, readCol, readBox } from './game/read_game.js';
-import { solveIn9, numCoords } from './fill_a_number/nine_numbers.js'; 
-import { solveIn1d } from './fill_a_number/one_dimension.js';
-
-let indexToBox = function (index) {
-    return Math.floor(index / 3);
-}
+import { readRow, readCol, readBox } from '../lib/read.js';
+import { solveIn9, numCoords } from './deduce/nine_numbers.js'; 
+import { solveIn1d } from './deduce/one_dimension.js';
 
 let nextMove = function (g) {
     // check each row
@@ -110,6 +106,7 @@ let nextMove = function (g) {
         }
     }
     */
+    console.log("Sigh: Out of skills!");
 }
 
 let move1 = function (g) {

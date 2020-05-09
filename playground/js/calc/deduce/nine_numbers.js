@@ -1,4 +1,4 @@
-import { countUnknown, boxStarts } from '../utils.js';
+import { countUnknown, boxStarts } from '../../lib/basic.js';
 
 // given arr of "123456780", return {pos:8, num:9}
 // given arr of "123456700", return {pos:null, num:null}

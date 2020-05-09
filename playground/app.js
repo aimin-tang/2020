@@ -1,6 +1,6 @@
-import { drawGrid } from "./utils/draw_grids.js";
-import { move1, moveAll } from "./utils/solve.js";
-import { g } from "./games/g1.js"
+import { drawGrid } from "./js/lib/draw.js";
+import { move1, moveAll } from "./js/calc/solve.js";
+import { g } from "./js/games/g1.js"
 
 function loadGame() {
     let here = document.getElementById("here");
