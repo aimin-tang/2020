@@ -13,6 +13,23 @@ let get3Rows = function (g, boxRowIdx) {
     return result;
 }
 
+// from game g, according to boxColIdx (0, 1, or 2), get the corresponding
+// 3 columns of numbers.
+let get3Cols = function (g, boxColIdx) {
+    let startCol = boxColIdx * 3;
+    let result = [];
+
+    for (let i=startCol; i<startCol+3; i++) {
+        let e  = "";
+        for (let j=0; j<9; j++) {
+            e += g[j][i];
+        }
+        result.push(e);
+    }
+
+    return result;
+}
+
 // threeRowsInto3Boxes(["001002003", "004005006", "007008009"]) =>
 //     ["001004007", "002005008", "003006009"]
 let get3Boxes = function (threeRows) {
@@ -71,9 +88,9 @@ let numNotInBoxes = function (threeBoxes, num) {
 // numbers, then "5" is in the last spot.
 // type is either "horizontal" or "vertical"
 // return either { row, col, num } or { row: null, col: null, num: num }
-let solveIn1d = function (g, type, boxRowIdx, num) {
+let solveIn1d = function (g, type, boxd1Idx, num) {
     if (type === "horizontal") {
-        let threeRows = get3Rows(g, boxRowIdx);
+        let threeRows = get3Rows(g, boxd1Idx);
         let threeBoxes = get3Boxes(threeRows);
         let seen = numInBoxes(threeBoxes, num);
         if (seen.length !== 2) {
@@ -89,12 +106,12 @@ let solveIn1d = function (g, type, boxRowIdx, num) {
             return { row: null, col: null, num: num };
         }
 
-        let row = boxRowIdx * 3 + missingRow;
+        let row = boxd1Idx * 3 + missingRow;
         let col = notSeen[0] * 3 + missingRowNums.indexOf('0');
         console.log(`row: ${row}, col: ${col}, num: ${num}`);
         return { row: row, col: col, num: num };
     } else if (type === "vertical") {
-        let threeCols = get3Cols(g, boxRowIdx);
+        let threeCols = get3Cols(g, boxd1Idx);
         let threeBoxes = get3Boxes(threeCols);
         let seen = numInBoxes(threeBoxes, num);
         if (seen.length !== 2) {
@@ -102,16 +119,16 @@ let solveIn1d = function (g, type, boxRowIdx, num) {
         }
 
         let notSeen = numNotInBoxes(threeBoxes, num);
-        let rowsTaken = [];
-        seen.map(e => rowsTaken.push(e.row));
-        let missingRow = 3 - rowsTaken.reduce((a, e) => a + e, 0);
+        let colsTaken = [];
+        seen.map(e => colsTaken.push(e.row));
+        let missingRow = 3 - colsTaken.reduce((a, e) => a + e, 0);
         let missingRowNums = threeBoxes[notSeen[0]].slice(missingRow*3, missingRow*3+3);
         if (countUnknown(missingRowNums) !== 1) {
             return { row: null, col: null, num: num };
         }
 
-        let row = boxRowIdx * 3 + missingRow;
-        let col = notSeen[0] * 3 + missingRowNums.indexOf('0');
+        let row = notSeen[0] * 3 + missingRowNums.indexOf('0');
+        let col = boxd1Idx * 3 + missingRow;
         console.log(`row: ${row}, col: ${col}, num: ${num}`);
         return { row: row, col: col, num: num };
 
