@@ -1,120 +1,94 @@
+import { readRow, readCol, readBox } from './game/read_game.js';
+import { solveIn9, numCoords } from './fill_a_number/nine_numbers.js'; 
+import { solveIn1d } from './fill_a_number/one_dimension.js';
+
+let indexToBox = function (index) {
+    return Math.floor(index / 3);
+}
+
 let nextMove = function (g) {
     // check each row
-    let arr;
-
     for (let i=0; i<9; i++) {
-        arr = [];
-        for (let j=0; j<9; j++){
-            arr.push(g[i][j]);
-        }
-        let { pos, num} = thereIsOnlyChoice(arr);
+        let arr = readRow(g, i);
+        let { pos, num } = solveIn9(arr);
         if (pos) {
-            return {
-                row: i,
-                col: pos,
-                num: num.toString()
-            }
+            return numCoords('row', i, pos, num);
         }
     }
 
     // check each column
     for (let i=0; i<9; i++) {
-        arr = [];
-        for (let j=0; j<9; j++){
-            arr.push(g[j][i]);
-        }
-        let { pos, num} = thereIsOnlyChoice(arr);
+        let arr = readCol(g, i);
+        let { pos, num } = solveIn9(arr);
         if (pos) {
-            return {
-                row: pos,
-                col: i,
-                num: num.toString()
-            }
+            return numCoords('col', i, pos, num);
         }
     }
 
     // check each box
     for (let i=0; i<9; i++) {
-        arr = [];
-        let startRow = Math.floor(i / 3) * 3;
-        let startCol = (i % 3) * 3;
-        for (let j=startRow; j<startRow + 3; j++){
-            for (let k=startCol; k<startCol + 3; k++){
-                arr.push(g[j][k]);
-            }
-        }
-        let { pos, num} = thereIsOnlyChoice(arr);
+        let arr = readBox(g, i);
+        let { pos, num } = solveIn9(arr);
         if (pos) {
-            let resultRow = startRow + Math.floor(pos / 3);
-            let resultCol = startCol + i % 3;
+            return numCoords('box', i, pos, num);
+        }
+    }
+
+    // check 1-d
+    for (let n=1; n<10; n++) {
+        for (let boxRow=0; boxRow<3; boxRow++) {
+            let r = solveIn1d(g, "horizontal", boxRow, n);
+            if (r.row) return r;
+            let r = solveIn1d(g, "vertical", boxRow, n);
+            if (r.row) return r;
+        }
+    }
+    
+    // check 2-d
+    for (let n=1; n<10; n++) {
+        for (let boxRow=0; boxRow<3; boxRow++) {
+            continue;
+            let nS = n.toString();
+            let startRow  = boxRow * 3;
+            let appearances = [];
+            for (let j=startRow; j<startRow+3; j++) {
+                let k =  g[j].indexOf(nS);
+                if (g[j].indexOf(nS) > -1) {
+                    appearances.push({row: j, col: k});
+                }
+            }
+
+            console.log(`n: ${n}, boxRow: ${boxRow}, appearances: ` +
+                        `${print_appearances(appearances)}`)
+            if (appearances.length !== 2) { continue; }
+
+            let boxesTaken = appearances.map(a => indexToBox(a.col))
+            let boxMissing = 3 - boxesTaken.reduce((s, i) => s + i, 0);
+            let rowsTaken = appearances.map(a => a.row);
+            let rowMissing = startRow * 3 + 3 - rowsTaken.reduce((s, i) => s + i, 0);
+
+            let startCol = boxMissing * 3;
+            let appearances2 = [];
+            for (let j = startCol; j<startCol+3; j++) {
+                for (let row=0; row<9; row++) {
+                    if (g[row][j] === nS) {
+                        appearances2.push({row: row, col: j});
+                    }
+                }
+            }
+
+            console.log(`appearances2: ${print_appearances(appearances2)}`)
+            if (appearances2.length !== 2) { continue; }
+
+            let colsTaken = appearances2.map(a => a.col);
+            let colMissing = startCol * 3 + 3 - colsTaken.reduce((s, i) => s + i, 0);
+
             return {
-                row: resultRow,
-                col: resultCol,
-                num: num.toString()
+                row: rowMissing,
+                col: colMissing,
+                num: n.toString()
             }
         }
-    }
-}
-
-let buildRow = function (g, row) {
-    let result = [];
-    for (let i=0; i<9; i++) {
-        result.push(g[row][i]);
-    }
-    return result;
-}
-
-let buildCol = function (g, col) {
-    let result = [];
-    for (let i=0; i<9; i++) {
-        result.push(g[i][col]);
-    }
-    return result;
-}
-
-let buildBox = function (g, box) {
-    let result = [];
-    let startRow = Math.floor(box / 3) * 3;
-    let startCol = (box % 3) * 3;
-    for (let i=startRow; i<startRow + 3; i++) {
-        for (let j=startCol; j<startCol + 3; j++) {
-            result.push(g[i][j]);
-        }
-    }
-    return result;
-}
-
-let thereIsOnlyChoice = function (arr) {
-    // return {pos: <num>, num: <num>}, or {pos: null, num: null}
-    let arrCopy = JSON.parse(JSON.stringify(arr));
-    arrCopy.sort();
-    let count = 0;
-    arrCopy.forEach(num => {
-        if (num === '0') count++;
-    })
-    
-    if (count > 1 || count === 0) {
-        return {
-            pos: null,
-            num: null
-        }
-    }
-
-    // there is exactly one number missing:
-    let num = 9;
-    arrCopy.shift()
-    for (let i = 0; i< 8; i++) {
-        if (arrCopy[i] !== (i + 1).toString()) {
-            num = i + 1;
-            break;
-        }
-    }
-
-    let pos = arr.indexOf('0');
-
-    return {
-        pos,
-        num
     }
 }
 
@@ -130,5 +104,4 @@ let moveAll = function (g) {
 export {
     move1,
     moveAll,
-    thereIsOnlyChoice
 }
