@@ -80,15 +80,16 @@ let get3Cols = function (g, boxColIdx) {
     return result;
 }
 
-// threeRowsInto3Boxes(["001002003", "004005006", "007008009"]) =>
+// get3Boxes(["001002003", "004005006", "007008009"]) =>
 //     ["001004007", "002005008", "003006009"]
-let get3Boxes = function (threeRows) {
+// input is either get3Rows() or get3Cols(). 
+let get3Boxes = function (three9s) {
     let result = [];
     for (let i=0; i<3; i++) {
         let box = "";
         let start = i * 3;
         for (let j=0; j<3; j++) {
-            box += threeRows[j].slice(start, start+3);
+            box += three9s[j].slice(start, start+3);
         }
         result.push(box);
     }
@@ -108,8 +109,8 @@ let numInBoxes = function (threeBoxes, num) {
         if (l > -1) {
             result.push({
                 box: i,
-                row: Math.floor(l / 3),
-                col: l % 3
+                d1: Math.floor(l / 3),
+                d2: l % 3
             })
         }
     } 
