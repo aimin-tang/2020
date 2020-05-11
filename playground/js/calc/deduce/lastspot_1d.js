@@ -6,7 +6,7 @@ import * as basic from '../../lib/basic.js';
 // direction is either "horizontal" or "vertical"
 // idx is either 0, 1 or 2
 // return either { row, col, num } or { row: null, col: null, num: num }
-let solveIn1d = function (g, direction, idx, num) {
+let solveInLastSpod1d = function (g, direction, idx, num) {
     if (direction === "horizontal") {
         let threeRows = basic.get3Rows(g, idx);
         let threeBoxes = basic.get3Boxes(threeRows);
@@ -55,5 +55,5 @@ let solveIn1d = function (g, direction, idx, num) {
 }
 
 export {
-    solveIn1d
+    solveInLastSpod1d
 }

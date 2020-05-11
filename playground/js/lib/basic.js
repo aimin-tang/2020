@@ -97,6 +97,23 @@ let get3Boxes = function (three9s) {
     return result
 }
 
+// return index of a num in a row
+let numInRow = function (g, row, num) {
+    return g[row].indexOf(num.toString())
+}
+
+// return index of a number in a col
+let numInCol = function (g, col, num) {
+    let result = -1;
+    for (let i=0; i<9; i++) {
+        if (g[i][col] === num.toString()) {
+            result = i;
+            break;
+        }
+    }
+    return result;
+}
+
 // return array of where num is seen.
 // numInBoxes(["005000000", "000005000", "000000000"]) => 
 //     [{box: 0, row: 0, col: 2}, {box: 1, row: 1, col: 2}]
@@ -145,6 +162,8 @@ export {
     get3Rows,
     get3Cols,
     get3Boxes,
+    numInRow,
+    numInCol,
     numInBoxes,
     numNotInBoxes
 }

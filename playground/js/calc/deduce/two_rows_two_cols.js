@@ -1,6 +1,6 @@
 import * as basic from '../../lib/basic.js';
 
-let solveIn2d = function (g, idx1, idx2, num) {
+let solveIn2r2c = function (g, idx1, idx2, num) {
     let rowNums =basic.get3Rows(g, idx1);
     let seenBoxes1 = basic.numInBoxes(rowNums, num);
     if (seenBoxes1.length !== 2) {
@@ -29,5 +29,5 @@ let solveIn2d = function (g, idx1, idx2, num) {
 }
 
 export {
-    solveIn2d
+    solveIn2r2c
 }
